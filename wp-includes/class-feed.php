@@ -3,21 +3,17 @@
 if ( !class_exists('SimplePie') )
 	require_once (ABSPATH . WPINC . '/class-simplepie.php');
 
-if ( version_compare( SIMPLEPIE_VERSION, '1.3-dev', '>' ) ) :
-	SimplePie_Cache::register( 'wp-transient', 'WP_Feed_Cache_Transient' );
-else :
-	class WP_Feed_Cache extends SimplePie_Cache {
-		/**
-		 * Create a new SimplePie_Cache object
-		 *
-		 * @static
-		 * @access public
-		 */
-		function create($location, $filename, $extension) {
-			return new WP_Feed_Cache_Transient($location, $filename, $extension);
-		}
+class WP_Feed_Cache extends SimplePie_Cache {
+	/**
+	 * Create a new SimplePie_Cache object
+	 *
+	 * @static
+	 * @access public
+	 */
+	function create($location, $filename, $extension) {
+		return new WP_Feed_Cache_Transient($location, $filename, $extension);
 	}
-endif;
+}
 
 class WP_Feed_Cache_Transient {
 	var $name;
@@ -89,7 +85,7 @@ class WP_SimplePie_File extends SimplePie_File {
 				$this->status_code = wp_remote_retrieve_response_code( $res );
 			}
 		} else {
-			if ( ! file_exists($url) || ( ! $this->body = file_get_contents($url) ) ) {
+			if ( ! $this->body = file_get_contents($url) ) {
 				$this->error = 'file_get_contents could not read the file';
 				$this->success = false;
 			}
