@@ -165,6 +165,7 @@ pip-log.txt
 # WordPress
 .htaccess
 wp-config.php
+wp-configphp.php
 wp-content/uploads/
 wp-content/blogs.dir/
 wp-content/upgrade/
